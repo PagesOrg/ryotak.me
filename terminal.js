@@ -42,7 +42,6 @@ function typeNext(){
 	var nextChar = text.charAt(index);
 	if(nextChar == "{"){
 		var command = text.substring(index,text.length);
-		console.log(command);
 		if(command.startsWith("{nl}")){
 			terminal.innerHTML = terminal.innerHTML+"<br>";
 			index = index + 4;
