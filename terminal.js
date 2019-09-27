@@ -33,11 +33,22 @@ function typeNext(){
 	}
 	var nextChar = text.charAt(index);
 	if(nextChar == "{"){
-		var command = text.substring(index,index+6);
+		var command = text.substring(index,text.length);
+		console.log(command);
 		if(command.startsWith("{nl}")){
 			terminal.innerHTML = terminal.innerHTML+"<br>"
 			index = index + 4;
 			return;
+		}else if(command.startsWith("{close}")){
+			terminal.innerHTML = terminal.innerHTML+"</span>"
+			index = index + 7;
+			return;
+		}else if(command.startsWith("{wait")){
+		
+		}else if(command.startsWith("{color")){
+
+		}else if(command.startsWith("{skip")){
+		
 		}
 	}
 	terminal.innerHTML = terminal.innerHTML+nextChar;
