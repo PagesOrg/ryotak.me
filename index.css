@@ -5,9 +5,13 @@ body {
 	color: white;
 }
 
+a {
+	color: #77bb00;
+}
+
 .terminal {
 	margin-right: auto;
 	margin-left: auto;
 	margin-top: 8%;
 	width: 50%;
-}
+

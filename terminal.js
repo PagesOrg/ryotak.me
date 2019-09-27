@@ -3,10 +3,10 @@ var typeTimer = null;
 var cursorTimer = setInterval(toggleCursor,500);
 var typeSpeed = 0;
 var text = "";
-var colorText = "";
-var colorIndex = 0;
-var colorTargetId = 0;
-var colorTypeTimer = null;
+var docText = "";
+var docIndex = 0;
+var docTargetId = 0;
+var docTypeTimer = null;
 var index = 0;
 function init(file,speed){
 	var xhr = new XMLHttpRequest();
@@ -59,13 +59,13 @@ function typeNext(){
 			var colorArgs = command.replace("{color:","").replace("}","").split(":");
 			var color = colorArgs[0];
 			var length = parseInt(colorArgs[1]);
-			colorText = text.substring(index,index + length);
+			docText = text.substring(index,index + length);
 			index = index + length;
-			terminal.innerHTML = terminal.innerHTML+"<span id='"+index+"'style='color:"+color+"'>"+colorText.charAt(0)+"</span>";
-			colorIndex = 1;
-			colorTargetId = index;
+			terminal.innerHTML = terminal.innerHTML+"<span id='"+index+"'style='color:"+color+"'>"+docText.charAt(0)+"</span>";
+			docIndex = 1;
+			docTargetId = index;
 			clearInterval(typeTimer);
-			colorTypeTimer = setInterval(typeColoredText,typeSpeed);
+			docTypeTimer = setInterval(typeTextToDoc,typeSpeed);
 			return;
 		}else if(command.startsWith("{skip:")){
 			command = command.substring(0,command.indexOf("}")+1);
@@ -74,6 +74,20 @@ function typeNext(){
 			targetText = text.substring(index,index + length);
 			index = index + length;
 			terminal.innerHTML = terminal.innerHTML+targetText;
+			return;
+		}else if(command.startsWith("{link:")){
+			command = command.substring(0,command.indexOf("}")+1);
+			index = index + command.length;
+			var linkArgs = command.replace("{link:","").replace("}","").split(":");
+			var link = linkArgs[0];
+			var length = parseInt(linkArgs[1]);
+			docText = text.substring(index,index + length);
+			index = index + length;
+			terminal.innerHTML = terminal.innerHTML+"<a id='"+index+"' href='"+link+"'>"+docText.charAt(0)+"</a>";
+			docIndex = 1;
+			docTargetId = index;
+			clearInterval(typeTimer);
+			docTypeTimer = setInterval(typeTextToDoc,typeSpeed);
 			return;
 		}
 	}
@@ -87,15 +101,15 @@ function typeNext(){
 	}
 }
 
-function typeColoredText(){
-	var target = document.getElementById(colorTargetId);
-	target.innerText = target.innerText + colorText.charAt(colorIndex);
-	colorIndex++;
-	if(colorIndex >= colorText.length){
-		colorText = "";
-		colorIndex = 0;
-		colorTargetId = 0;
-		clearInterval(colorTypeTimer);
+function typeTextToDoc(){
+	var target = document.getElementById(docTargetId);
+	target.innerText = target.innerText + docText.charAt(docIndex);
+	docIndex++;
+	if(docIndex >= docText.length){
+		docText = "";
+		docIndex = 0;
+		docTargetId = 0;
+		clearInterval(docTypeTimer);
 		startType();
 	}
 }
