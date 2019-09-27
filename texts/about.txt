@@ -1,1 +1,1 @@
-aaaaaaaaao{nl}qaraaaaaaaaaaaaaaaaaabc{nl}bcaaaaaaaaaaaaaaaa
+{wait:300}{skip:17}localhost login: {wait:500}ryotak{wait:100}{nl}{skip:9}Password: {wait:1500}{nl}{skip:53}<span style="color:#20C20E">ryotak@localhost:</span>~$ 
