@@ -22,7 +22,7 @@ function init(file,speed,typeable,cmds){
 				shouldReceiveType = typeable;
 				commands = cmds;
 				text = this.response;
-				for(cmd in commands){
+				for(let cmd in commands){
 					let scriptText = commands[cmd];
 					let xhr = new XMLHttpRequest();
 					xhr.open("GET", scriptText, true);
@@ -156,26 +156,69 @@ function keyTyped(){
 			currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
 			typing.innerText = currentTypingText;
 		}else if(typingText === "Enter"){
+			document.getElementById("typing").removeAttribute("id");
 			var cursorShown = false;
 			if(terminal.innerHTML.endsWith(cursor)){
 				terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
 				cursorShown = true;
 			}
 			var typedCommand = currentTypingText;
-			var typedCommandArgs = typedCommand.split(" ");
-			console.log(typedCommandArgs.length);
-			if(typedCommand.replace(/ /g,"") == ""){
-				terminal.innerHTML = terminal.innerHTML + '<br><span style="color:#1adb04">ryotak@localhost:</span>~$ ';
-			}
-			console.log(typedCommand);
 			currentTypingText = "";
-			document.getElementById("typing").innerText = "";
+			var typedCommandArgs = typedCommand.split(" ");
+			let commandScript = commands[[typedCommandArgs[0]]];
+			if(commandScript == undefined){
+				let commandScript = commands["*"];
+				if(commandScript != undefined){
+					executeScript(commandScript);
+				}
+			}else{
+				executeScript(commandScript);
+			}
+			//console.log(commandScript);
+			terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
 			if(cursorShown){
 				terminal.innerHTML = terminal.innerHTML+cursor;
 			}
 		}
 	}
 	console.log(event.key);
+}
+
+function executeScript(commandScript){
+	let scriptLinesRaw = commandScript.split("\n");
+	let requiredIndent = -1;
+	let terminal = document.getElementsByClassName("terminal")[0];
+	for(let scriptLineNum in scriptLinesRaw){
+		let scriptLineRaw = scriptLinesRaw[scriptLineNum];
+		if(scriptLineRaw != ""){
+			console.log(scriptLineRaw)
+			let scriptLine = scriptLineRaw.replace("\t","");
+			let scriptArgs = scriptLine.split(" ");
+			let indent = (scriptLineRaw.match(/\t/g) || []).length;
+			let scriptLabel = scriptArgs[0];
+			switch(scriptLabel){
+				case "if":
+					break;
+				case "else":
+					break;
+				case "set":
+					break;
+				case "text":
+					let text = scriptLine.replace(scriptLabel,"").replace(" ","");
+					if(text.startsWith("@")){
+						let name = text.replace("@","");
+						terminal.innerHTML = terminal.innerHTML + variable[[name]];
+					}
+					break;
+				case "clear":
+					terminal.innerHTML = "";
+					break;
+			}
+			for(let scriptArgNum in scriptArgs){
+				let scriptArg = scriptArgs[scriptArgNum];
+			}
+		}
+	}
 }
 
 function typeTextToDoc(){
@@ -199,10 +242,6 @@ function toggleCursor(){
 	}else{
 		terminal.innerHTML = terminalLog+cursor;
 	}
-}
-
-String.prototype.bytes = function () {
-	return(encodeURIComponent(this).replace(/%../g,"x").length);
 }
 
 if(!String.prototype.endsWith){
