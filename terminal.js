@@ -202,12 +202,15 @@ function executeScript(commandScript){
 				case "else":
 					break;
 				case "set":
+					variable[[scriptArgs[1]]] = scriptArgs[3];
 					break;
 				case "text":
 					let text = scriptLine.replace(scriptLabel,"").replace(" ","");
 					if(text.startsWith("@")){
 						let name = text.replace("@","");
 						terminal.innerHTML = terminal.innerHTML + variable[[name]];
+					}else{
+						terminal.innerHTML = terminal.innerHTML + text;
 					}
 					break;
 				case "clear":
