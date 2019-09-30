@@ -2,6 +2,7 @@ var cursor = '<span id="cursor">|</span>';
 var typeTimer = null;
 var cursorTimer = setInterval(toggleCursor,500);
 var commands = null;
+var variable = {"currentdirectory": "~"};
 var typeSpeed = 0;
 var text = "";
 var currentTypingText = "";
@@ -22,13 +23,31 @@ function init(file,speed,typeable,cmds){
 				commands = cmds;
 				text = this.response;
 				for(cmd in commands){
-					var script = commands[cmd];
-					var xhr = new XMLHttpRequest();
-					xhr.open("GET", script, true);
+					let scriptText = commands[cmd];
+					let xhr = new XMLHttpRequest();
+					xhr.open("GET", scriptText, true);
 					xhr.onreadystatechange = function() {
 						if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
 							commands[cmd] = this.response;
-							console.log(this.response);
+							let script = commands[cmd];
+							let lines = script.split("\n");
+							for(line in lines){
+								let commandLine = lines[line].replace(/\t/g,"");
+								if(commandLine.length != 0){
+									let commandArgs = commandLine.split(" ");
+								 	let labelArg = commandArgs[0];
+									if(labelArg == "load"){
+										let textFetcher = new XMLHttpRequest();
+										textFetcher.open("GET", commandArgs[1], true);
+										textFetcher.onreadystatechange = function() {
+											if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
+												variable[[commandArgs[3]]] = this.response;
+											}
+										}
+										textFetcher.send();
+									}
+								}
+							}
 						}
 					}
 					xhr.send();
@@ -129,6 +148,7 @@ function keyTyped(){
 		currentTypingText = currentTypingText + typingText;
 		typing.innerText = currentTypingText;
 	}else{
+		let terminal = document.getElementsByClassName("terminal")[0];
 		if(typingText === "Spacebar"){
 			currentTypingText = currentTypingText + " ";
 			typing.innerText = currentTypingText;
@@ -136,8 +156,23 @@ function keyTyped(){
 			currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
 			typing.innerText = currentTypingText;
 		}else if(typingText === "Enter"){
-			console.log(commands);
-			//Execute
+			var cursorShown = false;
+			if(terminal.innerHTML.endsWith(cursor)){
+				terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
+				cursorShown = true;
+			}
+			var typedCommand = currentTypingText;
+			var typedCommandArgs = typedCommand.split(" ");
+			console.log(typedCommandArgs.length);
+			if(typedCommand.replace(/ /g,"") == ""){
+				terminal.innerHTML = terminal.innerHTML + '<br><span style="color:#1adb04">ryotak@localhost:</span>~$ ';
+			}
+			console.log(typedCommand);
+			currentTypingText = "";
+			document.getElementById("typing").innerText = "";
+			if(cursorShown){
+				terminal.innerHTML = terminal.innerHTML+cursor;
+			}
 		}
 	}
 	console.log(event.key);
