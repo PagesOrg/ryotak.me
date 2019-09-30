@@ -21,6 +21,17 @@ function init(file,speed,typeable,cmds){
 				shouldReceiveType = typeable;
 				commands = cmds;
 				text = this.response;
+				for(cmd in commands){
+					var script = commands[cmd];
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", script, true);
+					xhr.onreadystatechange = function() {
+						if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
+							commands[cmd] = this.response;
+						}
+					}
+					xhr.send();
+				}
 				startType();
 			}else{
 				typeSpeed = speed;
