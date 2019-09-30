@@ -28,6 +28,7 @@ function init(file,speed,typeable,cmds){
 					xhr.onreadystatechange = function() {
 						if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
 							commands[cmd] = this.response;
+							console.log(this.response);
 						}
 					}
 					xhr.send();
@@ -108,9 +109,6 @@ function typeNext(){
 		}
 	}
 	terminal.innerHTML = terminal.innerHTML+nextChar;
-	if(cursorShown){
-		terminal.innerHTML = terminal.innerHTML+cursor;
-	}
 	index++;
 	if(index >= text.length - 1){
 		if(shouldReceiveType){
@@ -118,6 +116,9 @@ function typeNext(){
 			document.onkeydown = keyTyped;
 		}
 		clearInterval(typeTimer);
+	}
+	if(cursorShown){
+		terminal.innerHTML = terminal.innerHTML+cursor;
 	}
 }
 
