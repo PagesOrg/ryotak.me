@@ -2,3 +2,7 @@ if arg0 isn't none
 	text bash: command not found
 load texts/prefix.txt to prefix
 text @prefix
+if currentdirectory isn't ~
+        text /
+        text @currentdirectory
+text $ 
