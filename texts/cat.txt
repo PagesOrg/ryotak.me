@@ -1,0 +1,43 @@
+if currentdirectory is ~
+	if arg1 is readme.txt
+		load texts/readme.txt to readme
+		text @readme
+	else if arg1 is about.txt
+		load texts/about.txt to about
+		text @about
+	else if arg1 is vulns
+		text cat: Is a directory
+	else if arg1 is softwares
+		text cat: Is a directory
+	else
+		text cd: No such file or directory
+if currentdirectory is vulns
+	if arg1 is CVE-2019-12385.txt
+		load texts/CVE-2019-12385.txt to CVE-2019-12385
+		text @CVE-2019-12385
+	else if arg1 is CVE-2019-13075.txt
+		load texts/CVE-2019-13075.txt to CVE-2019-13075
+		text @CVE-2019-13075
+	else if arg1 is CVE-2019-14653.txt
+		load texts/CVE-2019-14653.txt to CVE-2019-14653
+		text @CVE-2019-14653
+	else if arg1 is CVE-2019-15499.txt
+		load texts/CVE-2019-15499.txt to CVE-2019-15499
+		text @CVE-2019-15499
+	else if arg1 is CVE-2019-15782.txt
+		load texts/CVE-2019-15782.txt to CVE-2019-15782
+		text @CVE-2019-15782
+
+if currentdirectory is softwares
+	if arg1 is CodeRunnerInjector.txt
+		load texts/CodeRunnerInjector.txt to CodeRunnerInjector
+		text @CodeRunnerInjector
+	else if arg1 is N-Deadline.txt
+		load texts/N-Deadline.txt to N-Deadline
+		text @N-Deadline
+	else if arg1 is ShadowBot.txt 
+		load texts/ShadowBot.txt to ShadowBot
+		text @ShadowBot
+	else if arg1 is CompilerBot.txt
+		load texts/CompilerBot.txt to CompilerBot
+		text @CompilerBot

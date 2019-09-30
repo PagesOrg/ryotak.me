@@ -8,7 +8,12 @@
 		<div class="terminal">
 		</div>
 		<script>
-			init("texts/about.txt",25);
+			var cmds = {
+				"cat": "texts/cat.txt",
+				"ls": "texts/ls.txt",
+				"help": "texts/help.txt"
+			};
+			init("texts/animation.txt",25,true,cmds);
 		</script>
 	</body>
 </html>

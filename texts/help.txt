@@ -1,0 +1,2 @@
+load text/helptext.txt to helptext
+text @helptext

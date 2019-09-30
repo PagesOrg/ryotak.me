@@ -1,20 +1,25 @@
 var cursor = '<span id="cursor">|</span>';
 var typeTimer = null;
 var cursorTimer = setInterval(toggleCursor,500);
+var commands = null;
 var typeSpeed = 0;
 var text = "";
+var currentTypingText = "";
 var docText = "";
 var docIndex = 0;
 var docTargetId = 0;
 var docTypeTimer = null;
 var index = 0;
-function init(file,speed){
+var shouldReceiveType = false;
+function init(file,speed,typeable,cmds){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", file, true);
 	xhr.onreadystatechange = function() {
 		if(this.readyState === XMLHttpRequest.DONE){    
 			if (this.status === 200) {
 				typeSpeed = speed;
+				shouldReceiveType = typeable;
+				commands = cmds;
 				text = this.response;
 				startType();
 			}else{
@@ -97,8 +102,33 @@ function typeNext(){
 	}
 	index++;
 	if(index >= text.length - 1){
+		if(shouldReceiveType){
+			terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
+			document.onkeydown = keyTyped;
+		}
 		clearInterval(typeTimer);
 	}
+}
+
+function keyTyped(){
+	var typing = document.getElementById("typing");
+	var typingText = event.key;
+	if(typingText.length == 1){
+		currentTypingText = currentTypingText + typingText;
+		typing.innerText = currentTypingText;
+	}else{
+		if(typingText === "Spacebar"){
+			currentTypingText = currentTypingText + " ";
+			typing.innerText = currentTypingText;
+		}else if(typingText === "Backspace"){
+			currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
+			typing.innerText = currentTypingText;
+		}else if(typingText === "Enter"){
+			console.log(commands);
+			//Execute
+		}
+	}
+	console.log(event.key);
 }
 
 function typeTextToDoc(){
@@ -122,4 +152,21 @@ function toggleCursor(){
 	}else{
 		terminal.innerHTML = terminalLog+cursor;
 	}
+}
+
+String.prototype.bytes = function () {
+	return(encodeURIComponent(this).replace(/%../g,"x").length);
+}
+
+if(!String.prototype.endsWith){
+	String.prototype.endsWith = function(str) {
+		var diff = this.length - str.length;
+		return diff >= 0 && this.lastIndexOf(str) === diff;
+	};
+}
+
+if(!String.prototype.startsWith){
+	String.prototype.startsWith = function(str) {
+		return this.indexOf(str) === 0;
+	};
 }

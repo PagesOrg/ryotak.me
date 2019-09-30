@@ -1,0 +1,4 @@
+cd [directory]: Change current directory.<br>
+cat [file]: Show content of specified file.<br>
+ls: Show files of current directory.<br>
+help: Show this help message.
