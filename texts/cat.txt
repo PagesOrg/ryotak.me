@@ -1,3 +1,4 @@
+text <br>
 if currentdirectory is ~
 	if arg1 is readme.txt
 		load texts/readme.txt to readme
@@ -10,7 +11,7 @@ if currentdirectory is ~
 	else if arg1 is softwares
 		text cat: Is a directory
 	else
-		text cd: No such file or directory
+		text cat: No such file or directory
 if currentdirectory is vulns
 	if arg1 is CVE-2019-12385.txt
 		load texts/CVE-2019-12385.txt to CVE-2019-12385
@@ -41,3 +42,10 @@ if currentdirectory is softwares
 	else if arg1 is CompilerBot.txt
 		load texts/CompilerBot.txt to CompilerBot
 		text @CompilerBot
+
+text @prefix
+text ~
+if currentdirectory isn't ~
+	text /
+	text @currentdirectory
+text $ 

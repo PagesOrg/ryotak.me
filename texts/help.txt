@@ -1,2 +1,9 @@
+text <br>
 load texts/helptext.txt to helptext
 text @helptext
+text @prefix
+text ~
+if currentdirectory isn't ~
+	text /
+	text @currentdirectory
+text $

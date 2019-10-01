@@ -162,7 +162,7 @@ function keyTyped(){
 				terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
 				cursorShown = true;
 			}
-			terminal.innerHTML = terminal.innerHTML+"<br>";
+			//terminal.innerHTML = terminal.innerHTML+"<br>";
 			var typedCommand = currentTypingText;
 			currentTypingText = "";
 			var typedCommandArgs = typedCommand.split(" ");
@@ -170,10 +170,10 @@ function keyTyped(){
 			if(commandScript == undefined){
 				let commandScript = commands["*"];
 				if(commandScript != undefined){
-					executeScript(commandScript);
+					executeScript(commandScript,typedCommandArgs);
 				}
 			}else{
-				executeScript(commandScript);
+				executeScript(commandScript,typedCommandArgs);
 			}
 			//console.log(commandScript);
 			terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
@@ -185,38 +185,100 @@ function keyTyped(){
 	console.log(event.key);
 }
 
-function executeScript(commandScript){
+function executeScript(commandScript,commandArgs){
 	let scriptLinesRaw = commandScript.split("\n");
 	let requiredIndent = -1;
 	let terminal = document.getElementsByClassName("terminal")[0];
+	let previousIf = false;
 	for(let scriptLineNum in scriptLinesRaw){
 		let scriptLineRaw = scriptLinesRaw[scriptLineNum];
 		if(scriptLineRaw != ""){
 			console.log(scriptLineRaw)
-			let scriptLine = scriptLineRaw.replace("\t","");
+			let scriptLine = scriptLineRaw.replace(/\t/g,"");
 			let scriptArgs = scriptLine.split(" ");
 			let indent = (scriptLineRaw.match(/\t/g) || []).length;
 			let scriptLabel = scriptArgs[0];
-			switch(scriptLabel){
-				case "if":
-					break;
-				case "else":
-					break;
-				case "set":
-					variable[[scriptArgs[1]]] = scriptArgs[3];
-					break;
-				case "text":
-					let text = scriptLine.replace(scriptLabel,"").replace(" ","");
-					if(text.startsWith("@")){
-						let name = text.replace("@","");
-						terminal.innerHTML = terminal.innerHTML + variable[[name]];
-					}else{
-						terminal.innerHTML = terminal.innerHTML + text;
-					}
-					break;
-				case "clear":
-					terminal.innerHTML = "";
-					break;
+			console.log(requiredIndent)
+			console.log(indent)
+			if(requiredIndent == -1 || requiredIndent >= indent){
+				console.log("Executing: "+scriptLineRaw);
+				console.log(commandArgs);
+				console.log(scriptLabel);
+				variable["arg0"] = commandArgs[0];
+				variable["arg1"] = commandArgs[1];
+				variable["arg2"] = commandArgs[2];
+				variable["arg3"] = commandArgs[3];
+				switch(scriptLabel){
+					case "if":
+						console.log(scriptArgs);
+						if(scriptArgs[3] == "none"){
+							scriptArgs[3] = "";
+						}
+						if(scriptArgs[2] == "is"){
+							console.log(variable[[scriptArgs[1]]]+"=="+scriptArgs[3])
+							if(variable[[scriptArgs[1]]] == scriptArgs[3]){
+								requiredIndent = indent + 1;
+								previousIf = true;
+							}else{
+								requiredIndent = indent;
+								previousIf = false;
+							}
+						}else{
+							if(variable[[scriptArgs[1]]] != scriptArgs[3]){
+								requiredIndent = indent + 1;
+								previousIf = true;
+							}else{
+								requiredIndent = indent;
+								previousIf = false;
+							}
+						}
+						break;
+					case "else":
+						if(!previousIf){
+							if(scriptArgs[1] == "if"){
+								if(scriptArgs[4] == "none"){
+									scriptArgs[4] = "";
+								}
+								if(scriptArgs[3] == "is"){
+									if(variable[[scriptArgs[2]]] == scriptArgs[4]){
+										previousIf = true;
+										requiredIndent = indent + 1;
+									}else{
+										requiredIndent = indent;
+									}
+								}else{
+									if(variable[[scriptArgs[2]]] != scriptArgs[4]){
+										previousIf = true;
+										requiredIndent = indent + 1;
+									}else{
+										requiredIndent = indent;
+									}
+								}
+							}else{
+								requiredIndent = indent + 1;
+							}
+						}else{
+							requiredIndent = indent;
+						}
+						break;
+					case "set":
+						console.log("SET!");
+						variable[[scriptArgs[1]]] = scriptArgs[3];
+						break;
+					case "text":
+						let text = scriptLine.replace(scriptLabel,"").replace(" ","");
+						console.log(text);
+						if(text.startsWith("@")){
+							let name = text.replace("@","");
+							terminal.innerHTML = terminal.innerHTML + variable[[name]];
+						}else{
+							terminal.innerHTML = terminal.innerHTML + text;
+						}
+						break;
+					case "clear":
+						terminal.innerHTML = "";
+						break;
+				}
 			}
 			for(let scriptArgNum in scriptArgs){
 				let scriptArg = scriptArgs[scriptArgNum];

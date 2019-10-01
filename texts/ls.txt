@@ -1,3 +1,4 @@
+text <br>
 if currentdirectory is ~
 	text readme.txt　about.txt　<span style="color:#3B78FF">vulns　softwares</span>
 else if currentdirectory is vulns
@@ -5,7 +6,8 @@ else if currentdirectory is vulns
 else if currentdirectory is softwares
 	text CodeRunnerInjector.txt　N-Deadline.txt　ShadowBot.txt　CompilerBot.txt
 text @prefix
+text ~
 if currentdirectory isn't ~
 	text /
 	text @currentdirectory
-text $
+text $ 

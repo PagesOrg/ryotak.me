@@ -1,20 +1,21 @@
-if currentdirectory is null
+if currentdirectory is ~
 	if arg1 is vulns
 		set currentdirectory to vulns
 	else if arg1 is softwares
 		set currentdirectory to softwares
 	else
-		text cd: No such file or directory
-if currentdirectory is ~
-	if arg1 is vulns
-                set currentdirectory to vulns
-	else if arg1 is softwares
-		set currentdirectory to softwares
-	else
+		text <br>
 		text cd: No such file or directory
 else
 	if arg1 is ..
 		set currentdirectory to ~
 	else if arg1 is .
 	else
+		text <br>
 		text cd: No such file or directory
+text @prefix
+text ~
+if currentdirectory isn't ~
+	text /
+	text @currentdirectory
+text $ 

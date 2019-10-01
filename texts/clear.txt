@@ -1,5 +1,6 @@
 clear
 text @prefix
+text ~
 if currentdirectory isn't ~
 	text /
 	text @currentdirectory
