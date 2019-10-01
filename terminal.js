@@ -132,6 +132,7 @@ function typeNext(){
 		}
 	}
 	terminal.innerHTML = terminal.innerHTML+nextChar;
+	window.scrollTo(0,document.body.scrollHeight);
 	index++;
 	if(index >= text.length - 1){
 		if(shouldReceiveType){
@@ -150,13 +151,22 @@ function keyTyped(){
 	var typingText = event.key;
 	if(blockedChars.indexOf(typingText) == -1){
 		if(typingText.length == 1){
-			currentTypingText = currentTypingText + typingText;
-			typing.innerText = currentTypingText;
+			if(typingText === " "){
+				if(!currentTypingText.endsWith(" ")){
+					currentTypingText = currentTypingText + " ";
+					typing.innerText = currentTypingText;
+				}
+			}else{
+				currentTypingText = currentTypingText + typingText;
+				typing.innerText = currentTypingText;
+			}
 		}else{
 			let terminal = document.getElementsByClassName("terminal")[0];
 			if(typingText === "Spacebar"){
-				currentTypingText = currentTypingText + " ";
-				typing.innerText = currentTypingText;
+				if(!currentTypingText.endsWith(" ")){
+					currentTypingText = currentTypingText + " ";
+					typing.innerText = currentTypingText;
+				}
 			}else if(typingText === "Backspace"){
 				currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
 				typing.innerText = currentTypingText;

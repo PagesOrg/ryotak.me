@@ -3,7 +3,7 @@ Hello, I am RyotaK.<br>
 I mainly use Java and Go in server side development.<br>
 I am not good with frontend development, but I can use JavaScript little.<br>
 <br>
-I also have experience with PHP, JavaScript and C#.<br>
+I also have experience with PHP and C#.<br>
 <br>
 I love writing code, doing CTF, playing game.<br>
 My favorite game is Minecraft and Terraria.<br>

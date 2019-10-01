@@ -6,4 +6,4 @@ text ~
 if currentdirectory isn't ~
 	text /
 	text @currentdirectory
-text $
+text $ 
