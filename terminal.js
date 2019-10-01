@@ -2,6 +2,7 @@ var cursor = '<span id="cursor">|</span>';
 var typeTimer = null;
 var cursorTimer = setInterval(toggleCursor,500);
 var commands = null;
+var blockedChars = null;
 var variable = {"currentdirectory": "~"};
 var typeSpeed = 0;
 var text = "";
@@ -12,7 +13,7 @@ var docTargetId = 0;
 var docTypeTimer = null;
 var index = 0;
 var shouldReceiveType = false;
-function init(file,speed,typeable,cmds){
+function init(file,speed,typeable,cmds,blockChars){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", file, true);
 	xhr.onreadystatechange = function() {
@@ -21,15 +22,18 @@ function init(file,speed,typeable,cmds){
 				typeSpeed = speed;
 				shouldReceiveType = typeable;
 				commands = cmds;
+				blockedChars = blockChars;
 				text = this.response;
 				for(let cmd in commands){
-					let scriptText = commands[cmd];
+					let ieCMD = cmd;
+					let scriptText = commands[ieCMD];
 					let xhr = new XMLHttpRequest();
 					xhr.open("GET", scriptText, true);
 					xhr.onreadystatechange = function() {
 						if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
-							commands[cmd] = this.response;
-							let script = commands[cmd];
+							console.log(ieCMD+" "+this.response);
+							commands[ieCMD] = this.response;
+							let script = commands[ieCMD];
 							let lines = script.split("\n");
 							for(line in lines){
 								let commandLine = lines[line].replace(/\t/g,"");
@@ -144,48 +148,51 @@ function typeNext(){
 function keyTyped(){
 	var typing = document.getElementById("typing");
 	var typingText = event.key;
-	if(typingText.length == 1){
-		currentTypingText = currentTypingText + typingText;
-		typing.innerText = currentTypingText;
-	}else{
-		let terminal = document.getElementsByClassName("terminal")[0];
-		if(typingText === "Spacebar"){
-			currentTypingText = currentTypingText + " ";
+	if(blockedChars.indexOf(typingText) == -1){
+		if(typingText.length == 1){
+			currentTypingText = currentTypingText + typingText;
 			typing.innerText = currentTypingText;
-		}else if(typingText === "Backspace"){
-			currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
-			typing.innerText = currentTypingText;
-		}else if(typingText === "Enter"){
-			document.getElementById("typing").removeAttribute("id");
-			var cursorShown = false;
-			if(terminal.innerHTML.endsWith(cursor)){
-				terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
-				cursorShown = true;
-			}
-			//terminal.innerHTML = terminal.innerHTML+"<br>";
-			var typedCommand = currentTypingText;
-			currentTypingText = "";
-			var typedCommandArgs = typedCommand.split(" ");
-			let commandScript = commands[[typedCommandArgs[0]]];
-			if(commandScript == undefined){
-				let commandScript = commands["*"];
-				if(commandScript != undefined){
+		}else{
+			let terminal = document.getElementsByClassName("terminal")[0];
+			if(typingText === "Spacebar"){
+				currentTypingText = currentTypingText + " ";
+				typing.innerText = currentTypingText;
+			}else if(typingText === "Backspace"){
+				currentTypingText = currentTypingText.substring(0,currentTypingText.length - 1);
+				typing.innerText = currentTypingText;
+			}else if(typingText === "Enter"){
+				document.getElementById("typing").removeAttribute("id");
+				var cursorShown = false;
+				if(terminal.innerHTML.endsWith(cursor)){
+					terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
+					cursorShown = true;
+				}
+				//terminal.innerHTML = terminal.innerHTML+"<br>";
+				var typedCommand = currentTypingText;
+				currentTypingText = "";
+				var typedCommandArgs = typedCommand.split(" ");
+				let commandScript = commands[[typedCommandArgs[0]]];
+				if(commandScript == undefined){
+					let commandScript = commands["*"];
+					if(commandScript != undefined){
+						executeScript(commandScript,typedCommandArgs);
+					}
+				}else{
 					executeScript(commandScript,typedCommandArgs);
 				}
-			}else{
-				executeScript(commandScript,typedCommandArgs);
-			}
-			//console.log(commandScript);
-			terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
-			if(cursorShown){
-				terminal.innerHTML = terminal.innerHTML+cursor;
+				//console.log(commandScript);
+				window.scrollTo(0,document.body.scrollHeight);
+				terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
+				if(cursorShown){
+					terminal.innerHTML = terminal.innerHTML+cursor;
+				}
 			}
 		}
 	}
-	console.log(event.key);
 }
 
 function executeScript(commandScript,commandArgs){
+	console.log(commandScript);
 	let scriptLinesRaw = commandScript.split("\n");
 	let requiredIndent = -1;
 	let terminal = document.getElementsByClassName("terminal")[0];
@@ -255,6 +262,7 @@ function executeScript(commandScript,commandArgs){
 									}
 								}
 							}else{
+								previousIf = true;
 								requiredIndent = indent + 1;
 							}
 						}else{
