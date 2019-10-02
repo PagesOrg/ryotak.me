@@ -13,9 +13,9 @@ if currentdirectory is ~
 	else
 		text cat: No such file or directory
 else if currentdirectory is vulns
-	if arg1 is CVE-2019-12385.txt
-		load texts/CVE-2019-12385.txt to CVE-2019-12385
-		text @CVE-2019-12385
+	if arg1 is CVE-2019-12395.txt
+		load texts/CVE-2019-12395.txt to CVE-2019-12395
+		text @CVE-2019-12395
 	else if arg1 is CVE-2019-13075.txt
 		load texts/CVE-2019-13075.txt to CVE-2019-13075
 		text @CVE-2019-13075
@@ -28,6 +28,8 @@ else if currentdirectory is vulns
 	else if arg1 is CVE-2019-15782.txt
 		load texts/CVE-2019-15782.txt to CVE-2019-15782
 		text @CVE-2019-15782
+	else
+		text cat: No such file or directory
 
 else if currentdirectory is softwares
 	if arg1 is CodeRunnerInjector.txt
@@ -42,6 +44,8 @@ else if currentdirectory is softwares
 	else if arg1 is CompilerBot.txt
 		load texts/CompilerBot.txt to CompilerBot
 		text @CompilerBot
+	else
+		text cat: No such file or directory
 
 text @prefix
 text ~

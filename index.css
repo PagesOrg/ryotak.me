@@ -6,12 +6,13 @@ body {
 }
 
 a {
-	color: #77bb00;
+	color: #3BB9D6;
+	text-decoration: none;
 }
 
 .terminal {
 	margin-right: auto;
 	margin-left: auto;
 	margin-top: 8%;
-	width: 40%;
+	width: 42%;
 }

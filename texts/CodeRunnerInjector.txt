@@ -1,0 +1,5 @@
+<b>Name:</b> CodeRunnerInjector<br>
+<b>Language:</b> Java<br>
+<b>Description:</b> CodeRunnerInjector is JVM injectable code executor.<br>
+It can inject itself to other JVMs, and you can control them via socket or gui.<br>
+It uses Java Agent to inject while target JVM is online.
