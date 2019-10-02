@@ -199,6 +199,9 @@ function keyTyped(){
 			}
 		}
 	}
+	if(event.keyCode == 8){
+		return false;
+	}
 }
 
 function executeScript(commandScript,commandArgs){
