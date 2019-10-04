@@ -182,6 +182,9 @@ function keyTyped(){
 				currentTypingText = "";
 				var typedCommandArgs = typedCommand.split(" ");
 				let commandScript = commands[[typedCommandArgs[0]]];
+				if(typedCommandArgs[0] === "@complete"){
+					commandScript = undefined;
+				}
 				if(commandScript == undefined){
 					let commandScript = commands["*"];
 					if(commandScript != undefined){
@@ -195,6 +198,12 @@ function keyTyped(){
 				terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
 				if(cursorShown){
 					terminal.innerHTML = terminal.innerHTML+cursor;
+				}
+			}else if(typingText === "Tab"){
+				let completeScript = commands["@complete"];
+				if(completeScript != undefined){
+					var typedCommandArgs = currentTypingText.split(" ");
+					executeScript(completeScript,typedCommandArgs);
 				}
 			}
 		}
@@ -301,19 +310,22 @@ function executeScript(commandScript,commandArgs){
 						terminal.innerHTML = "";
 						break;
 					case "complete":
+						console.log("BAC!")
 						let matchedText = "";
 						let completeMatch = false;
+						console.log("AAAAA: "+scriptArgs);
 						for(let arg in scriptArgs){
-							if(arg.startsWith(commandArgs[1])){
+							if(scriptArgs[[arg]].startsWith(commandArgs[1])){
 								if(matchedText == ""){
-									matchedText = arg;
+									matchedText = scriptArgs[[arg]];
 									completeMatch = true;
 								}else{
-									matchedText = matchedText + "　"+ arg;
+									matchedText = matchedText + " "+ scriptArgs[[arg]];
 									completeMatch = false;
 								}
 							}
 						}
+						console.log(matchedText);
 						if(completeMatch){
 							let typing = document.getElementById("typing");
 							typing.innerText = typing.innerText + matchedText;

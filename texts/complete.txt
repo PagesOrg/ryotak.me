@@ -1,3 +1,4 @@
+text <br>
 if arg0 is cat
 	if currentdirectory is ~
 		complete readme.txt about.txt
@@ -9,3 +10,9 @@ if arg0 is cat
 if arg0 is cd
 	if currentdirectory is ~
 		complete softwares vulns
+text <br>
+text @prefix
+if currentdirectory isn't ~
+	text /
+	text @currentdirectory
+text $
