@@ -200,10 +200,21 @@ function keyTyped(){
 					terminal.innerHTML = terminal.innerHTML+cursor;
 				}
 			}else if(typingText === "Tab"){
+				document.getElementById("typing").removeAttribute("id");
+				var cursorShown = false;
+				if(terminal.innerHTML.endsWith(cursor)){
+					terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
+					cursorShown = true;
+				}
 				let completeScript = commands["@complete"];
 				if(completeScript != undefined){
 					var typedCommandArgs = currentTypingText.split(" ");
 					executeScript(completeScript,typedCommandArgs);
+				}
+				window.scrollTo(0,document.body.scrollHeight);
+				terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
+				if(cursorShown){
+					terminal.innerHTML = terminal.innerHTML+cursor;
 				}
 			}
 		}
@@ -310,10 +321,8 @@ function executeScript(commandScript,commandArgs){
 						terminal.innerHTML = "";
 						break;
 					case "complete":
-						console.log("BAC!")
 						let matchedText = "";
 						let completeMatch = false;
-						console.log("AAAAA: "+scriptArgs);
 						for(let arg in scriptArgs){
 							if(scriptArgs[[arg]].startsWith(commandArgs[1])){
 								if(matchedText == ""){
@@ -330,17 +339,7 @@ function executeScript(commandScript,commandArgs){
 							let typing = document.getElementById("typing");
 							typing.innerText = typing.innerText + matchedText;
 						}else{
-							document.getElementById("typing").removeAttribute("id");
-							var cursorShown = false;
-							if(terminal.innerHTML.endsWith(cursor)){
-								terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
-								cursorShown = true;
-							}
 							terminal.innerHTML = terminal.innerHTML + matchedText;
-							terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
-							if(cursorShown){
-								terminal.innerHTML = terminal.innerHTML+cursor;
-							}
 						}
 						break;
 				}
