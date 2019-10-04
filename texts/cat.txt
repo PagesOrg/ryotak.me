@@ -35,9 +35,6 @@ else if currentdirectory is softwares
 	if arg1 is CodeRunnerInjector.txt
 		load texts/CodeRunnerInjector.txt to CodeRunnerInjector
 		text @CodeRunnerInjector
-	else if arg1 is N-Deadline.txt
-		load texts/N-Deadline.txt to N-Deadline
-		text @N-Deadline
 	else if arg1 is ShadowBot.txt 
 		load texts/ShadowBot.txt to ShadowBot
 		text @ShadowBot
