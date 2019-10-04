@@ -199,6 +199,7 @@ function keyTyped(){
 			}
 		}
 	}
+	console.log(event.key)
 	if(event.keyCode == 8){
 		return false;
 	}
@@ -317,7 +318,17 @@ function executeScript(commandScript,commandArgs){
 							let typing = document.getElementById("typing");
 							typing.innerText = typing.innerText + matchedText;
 						}else{
-							
+							document.getElementById("typing").removeAttribute("id");
+							var cursorShown = false;
+							if(terminal.innerHTML.endsWith(cursor)){
+								terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
+								cursorShown = true;
+							}
+							terminal.innerHTML = terminal.innerHTML + matchedText;
+							terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
+							if(cursorShown){
+								terminal.innerHTML = terminal.innerHTML+cursor;
+							}
 						}
 						break;
 				}
