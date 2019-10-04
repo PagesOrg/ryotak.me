@@ -1,17 +1,17 @@
 Hello, I am RyotaK.<br>
 <br>
-I mainly use Java and Go in server side development.<br>
+I mainly use Java and Go in server-side development.<br>
 I am not good with frontend development, but I can use JavaScript little.<br>
 <br>
 I also have experience with PHP and C#.<br>
 <br>
-I love writing code, doing CTF, playing game.<br>
+I love writing code, doing CTF, playing games.<br>
 My favorite game is Minecraft and Terraria.<br>
 <br>
-You can find me on these platform:<br>
+You can find me on these platforms:<br>
 <a id="1041" href="//github.com/Ry0taK">GitHub</a><br>
 <a id="1082" href="//twitter.com/ryotkak">Twitter</a><br>
 <a id="1126" href="//hackerone.com/ryotak">HackerOne</a><br>
 <br>
-This site has interactive command line.<br>
+This site has an interactive command line.<br>
 You can type "help" to show help after this animation.<br>
