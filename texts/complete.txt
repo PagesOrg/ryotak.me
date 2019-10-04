@@ -1,0 +1,11 @@
+if arg0 is cat
+	if currentdirectory is ~
+		complete readme.txt about.txt
+	else if currentdirectory is softwares
+		complete CodeRunnerInjector.txt ShadowBot.txt CompilerBot.txt
+	else if currentdirectory is vulns
+		complete CVE-2019-12395.txt CVE-2019-13075.txt CVE-2019-14653.txt CVE-2019-15499.txt CVE-2019-15782.txt
+
+if arg0 is cd
+	if currentdirectory is ~
+		complete softwares vulns

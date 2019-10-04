@@ -299,6 +299,27 @@ function executeScript(commandScript,commandArgs){
 					case "clear":
 						terminal.innerHTML = "";
 						break;
+					case "complete":
+						let matchedText = "";
+						let completeMatch = false;
+						for(let arg in scriptArgs){
+							if(arg.startsWith(commandArgs[1])){
+								if(matchedText == ""){
+									matchedText = arg;
+									completeMatch = true;
+								}else{
+									matchedText = matchedText + "　"+ arg;
+									completeMatch = false;
+								}
+							}
+						}
+						if(completeMatch){
+							let typing = document.getElementById("typing");
+							typing.innerText = typing.innerText + matchedText;
+						}else{
+							
+						}
+						break;
 				}
 			}
 			for(let scriptArgNum in scriptArgs){
