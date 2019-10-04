@@ -200,27 +200,29 @@ function keyTyped(){
 					terminal.innerHTML = terminal.innerHTML+cursor;
 				}
 			}else if(typingText === "Tab"){
-				document.getElementById("typing").removeAttribute("id");
-				var cursorShown = false;
-				if(terminal.innerHTML.endsWith(cursor)){
-					terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
-					cursorShown = true;
-				}
-				let completeScript = commands["@complete"];
-				if(completeScript != undefined){
-					var typedCommandArgs = currentTypingText.split(" ");
-					executeScript(completeScript,typedCommandArgs);
-				}
-				window.scrollTo(0,document.body.scrollHeight);
-				terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
-				if(cursorShown){
-					terminal.innerHTML = terminal.innerHTML+cursor;
+				if(currentTypingText.split(" ")[2] == undefined){
+					document.getElementById("typing").removeAttribute("id");
+					var cursorShown = false;
+					if(terminal.innerHTML.endsWith(cursor)){
+						terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
+						cursorShown = true;
+					}
+					let completeScript = commands["@complete"];
+					if(completeScript != undefined){
+						var typedCommandArgs = currentTypingText.split(" ");
+						executeScript(completeScript,typedCommandArgs);
+					}
+					window.scrollTo(0,document.body.scrollHeight);
+					terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
+					document.getElementById("typing").innerText = currentTypingText;
+					if(cursorShown){
+						terminal.innerHTML = terminal.innerHTML+cursor;
+					}
 				}
 			}
 		}
 	}
-	console.log(event.key)
-	if(event.keyCode == 8){
+	if(event.keyCode == 8 || event.keyCode == 9){
 		return false;
 	}
 }
@@ -321,25 +323,38 @@ function executeScript(commandScript,commandArgs){
 						terminal.innerHTML = "";
 						break;
 					case "complete":
+						let incompleteMatch = "";
 						let matchedText = "";
 						let completeMatch = false;
+						scriptArgs.splice(0, 1);
 						for(let arg in scriptArgs){
 							if(scriptArgs[[arg]].startsWith(commandArgs[1])){
 								if(matchedText == ""){
 									matchedText = scriptArgs[[arg]];
+									incompleteMatch = scriptArgs[[arg]];
 									completeMatch = true;
 								}else{
+									for(let charNum in scriptArgs[[arg]].split("")){
+										if(incompleteMatch.split("")[charNum] != scriptArgs[[arg]].split("")[charNum]){
+											incompleteMatch = incompleteMatch.substring(0,charNum);
+										}
+									}
 									matchedText = matchedText + " "+ scriptArgs[[arg]];
 									completeMatch = false;
 								}
 							}
 						}
-						console.log(matchedText);
+						console.log("Match:" + matchedText);
+						//if(matchedText == ""){
+						//	break;
+						//}
 						if(completeMatch){
-							let typing = document.getElementById("typing");
-							typing.innerText = typing.innerText + matchedText;
+							currentTypingText = commandArgs[0] + " " + matchedText;
 						}else{
-							terminal.innerHTML = terminal.innerHTML + matchedText;
+							if(matchedText.length >= commandArgs[0].length){
+								currentTypingText = commandArgs[0] + " " + incompleteMatch;
+								terminal.innerHTML = terminal.innerHTML + "<br>" + matchedText;
+							}
 						}
 						break;
 				}
