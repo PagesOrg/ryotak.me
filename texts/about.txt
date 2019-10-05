@@ -9,9 +9,9 @@ I love writing code, doing CTF, playing games.<br>
 My favorite game is Minecraft and Terraria.<br>
 <br>
 You can find me on these platforms:<br>
-<a id="1041" href="//github.com/Ry0taK">GitHub</a><br>
-<a id="1082" href="//twitter.com/ryotkak">Twitter</a><br>
-<a id="1126" href="//hackerone.com/ryotak">HackerOne</a><br>
+<a href="//github.com/Ry0taK" target="_blank" rel="noopener">GitHub</a><br>
+<a href="//twitter.com/ryotkak" target="_blank" rel="noopener">Twitter</a><br>
+<a href="//hackerone.com/ryotak" target="_blank" rel="noopener">HackerOne</a><br>
 <br>
 This site has an interactive command line.<br>
 You can type "help" to show help after this animation.<br>

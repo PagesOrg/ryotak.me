@@ -1,6 +1,6 @@
 <b>Name:</b> ShadowBot<br>
 <b>Language:</b> Go<br>
-<b>Description:</b> ShadowBot is a <a href="https://discordapp.com">Discord</a> bot that shares useful information.<br>
-It shares <a href="https://hackerone.com">HackerOne</a>'s Hacktivity and <a href="https://connpass.com">Connpass</a>'s events.<br>
-It also shares weather information of Tokyo from <a href="http://weather.livedoor.com/weather_hacks/">WeatherHacks</a>.<br>
-It's now working on my private <a href="https://discordapp.com">Discord</a> guild only.
+<b>Description:</b> ShadowBot is a <a href="https://discordapp.com" target="_blank" rel="noopener">Discord</a> bot that shares useful information.<br>
+It shares <a href="https://hackerone.com" target="_blank" rel="noopener">HackerOne</a>'s Hacktivity and <a href="https://connpass.com" target="_blank" rel="noopener">Connpass</a>'s events.<br>
+It also shares weather information of Tokyo from <a href="http://weather.livedoor.com/weather_hacks/" target="_blank" rel="noopener">WeatherHacks</a>.<br>
+It's now working on my private <a href="https://discordapp.com" target="_blank" rel="noopener">Discord</a> guild only.

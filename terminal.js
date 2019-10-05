@@ -123,7 +123,7 @@ function typeNext(){
 			var length = parseInt(linkArgs[1]);
 			docText = text.substring(index,index + length);
 			index = index + length;
-			terminal.innerHTML = terminal.innerHTML+"<a id='"+index+"' href='"+link+"'>"+docText.charAt(0)+"</a>";
+			terminal.innerHTML = terminal.innerHTML+"<a target='_blank' rel='noopener' id='"+index+"' href='"+link+"'>"+docText.charAt(0)+"</a>";
 			docIndex = 1;
 			docTargetId = index;
 			clearInterval(typeTimer);
