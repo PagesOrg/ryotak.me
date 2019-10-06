@@ -1,7 +1,8 @@
 Hello, I am RyotaK.<br>
 <br>
-I mainly use Java and Go in server-side development.<br>
-I am not good with frontend development, but I can use JavaScript little.<br>
+I mainly use Java and Go in backend development.<br>
+I'm not good with frontend development,<br>
+but I can use JavaScript little.<br>
 <br>
 I also have experience with PHP and C#.<br>
 <br>
@@ -14,4 +15,4 @@ You can find me on these platforms:<br>
 <a href="//hackerone.com/ryotak" target="_blank" rel="noopener">HackerOne</a><br>
 <br>
 This site has an interactive command line.<br>
-You can type "help" to show help after this animation.<br>
+Type "help" to show help after this animation.<br>

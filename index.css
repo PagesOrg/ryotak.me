@@ -16,12 +16,12 @@ a {
 	margin-top: 8%;
 	width: 42%;
 }
-@media only screen and (max-device-width: 480px) {
+@media screen and (max-device-width: 480px) {
 	body {
 		font-family: courier;
 		background-color: black;
 		color: white;
-		font-size: 25px;
+		font-size: 40px;
 	}
 
 	a {
@@ -30,6 +30,8 @@ a {
 	}
 
 	.terminal {
+		white-space: nowrap;
+		font-size: 35px;
 		margin-right: auto;
 		margin-top: 8%;
 		width: 90%;
