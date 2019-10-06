@@ -16,3 +16,23 @@ a {
 	margin-top: 8%;
 	width: 42%;
 }
+@media only screen and (max-device-width: 480px) {
+	body {
+		font-family: courier;
+		background-color: black;
+		color: white;
+		font-size: 25px;
+	}
+
+	a {
+		color: #3BB9D6;
+		text-decoration: none;
+	}
+
+	.terminal {
+		margin-right: auto;
+		margin-top: 8%;
+		width: 90%;
+		margin-left: auto;
+	}
+}
