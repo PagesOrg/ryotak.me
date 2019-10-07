@@ -1,13 +1,13 @@
-Hello, I am RyotaK.<br>
+Hello, I'm RyotaK.<br>
 <br>
 I mainly use Java and Go in backend development.<br>
-I'm not good with frontend development,<br>
-but I can use JavaScript little.<br>
+I'm not good at frontend development,<br>
+but I can use JavaScript a little.<br>
 <br>
-I also have experience with PHP and C#.<br>
+I also have PHP and C# experiences.<br>
 <br>
 I love writing code, doing CTF, playing games.<br>
-My favorite game is Minecraft and Terraria.<br>
+My favorite games are Minecraft and Terraria.<br>
 <br>
 You can find me on these platforms:<br>
 <a href="//github.com/Ry0taK" target="_blank" rel="noopener">GitHub</a><br>
