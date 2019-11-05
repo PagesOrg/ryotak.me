@@ -176,7 +176,6 @@ function keyTyped(){
 					terminal.innerHTML = terminal.innerHTML.substring(0,terminal.innerHTML.lastIndexOf(cursor));
 					cursorShown = true;
 				}
-				//terminal.innerHTML = terminal.innerHTML+"<br>";
 				var typedCommand = currentTypingText;
 				currentTypingText = "";
 				var typedCommandArgs = typedCommand.split(" ");
