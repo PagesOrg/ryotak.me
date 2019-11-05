@@ -31,7 +31,6 @@ function init(file,speed,typeable,cmds,blockChars){
 					xhr.open("GET", scriptText, true);
 					xhr.onreadystatechange = function() {
 						if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
-							console.log(ieCMD+" "+this.response);
 							commands[ieCMD] = this.response;
 							let script = commands[ieCMD];
 							let lines = script.split("\n");
@@ -193,7 +192,6 @@ function keyTyped(){
 				}else{
 					executeScript(commandScript,typedCommandArgs);
 				}
-				//console.log(commandScript);
 				window.scrollTo(0,document.body.scrollHeight);
 				terminal.innerHTML = terminal.innerHTML+"<span id='typing'></span>";
 				if(cursorShown){
@@ -228,7 +226,6 @@ function keyTyped(){
 }
 
 function executeScript(commandScript,commandArgs){
-	console.log(commandScript);
 	let scriptLinesRaw = commandScript.split("\n");
 	let requiredIndent = -1;
 	let terminal = document.getElementsByClassName("terminal")[0];
@@ -236,29 +233,21 @@ function executeScript(commandScript,commandArgs){
 	for(let scriptLineNum in scriptLinesRaw){
 		let scriptLineRaw = scriptLinesRaw[scriptLineNum];
 		if(scriptLineRaw != ""){
-			console.log(scriptLineRaw)
 			let scriptLine = scriptLineRaw.replace(/\t/g,"");
 			let scriptArgs = scriptLine.split(" ");
 			let indent = (scriptLineRaw.match(/\t/g) || []).length;
 			let scriptLabel = scriptArgs[0];
-			console.log(requiredIndent)
-			console.log(indent)
 			if(requiredIndent == -1 || requiredIndent >= indent){
-				console.log("Executing: "+scriptLineRaw);
-				console.log(commandArgs);
-				console.log(scriptLabel);
 				variable["arg0"] = commandArgs[0];
 				variable["arg1"] = commandArgs[1];
 				variable["arg2"] = commandArgs[2];
 				variable["arg3"] = commandArgs[3];
 				switch(scriptLabel){
 					case "if":
-						console.log(scriptArgs);
 						if(scriptArgs[3] == "none"){
 							scriptArgs[3] = "";
 						}
 						if(scriptArgs[2] == "is"){
-							console.log(variable[[scriptArgs[1]]]+"=="+scriptArgs[3])
 							if(variable[[scriptArgs[1]]] == scriptArgs[3]){
 								requiredIndent = indent + 1;
 								previousIf = true;
@@ -306,12 +295,10 @@ function executeScript(commandScript,commandArgs){
 						}
 						break;
 					case "set":
-						console.log("SET!");
 						variable[[scriptArgs[1]]] = scriptArgs[3];
 						break;
 					case "text":
 						let text = scriptLine.replace(scriptLabel,"").replace(" ","");
-						console.log(text);
 						if(text.startsWith("@")){
 							let name = text.replace("@","");
 							terminal.innerHTML = terminal.innerHTML + variable[[name]];
@@ -344,10 +331,6 @@ function executeScript(commandScript,commandArgs){
 								}
 							}
 						}
-						console.log("Match:" + matchedText);
-						//if(matchedText == ""){
-						//	break;
-						//}
 						if(completeMatch){
 							currentTypingText = commandArgs[0] + " " + matchedText;
 						}else{
